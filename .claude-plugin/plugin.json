@@ -1,0 +1,12 @@
+{
+  "name": "ideation-planning",
+  "version": "1.0.0",
+  "description": "Claude Code plugin: ideation and planning workflow — capture, evaluate, rank, simulate, and plan ideas, with ideation/single-idea-eval/multi-idea-ranking/feature-ideas/decision/simulation/idea-capture variants.",
+  "author": {
+    "name": "Daniel Rosehill",
+    "url": "https://github.com/danielrosehill"
+  },
+  "repository": "https://github.com/danielrosehill/Claude-Ideation-Planning-Plugin",
+  "license": "MIT",
+  "keywords": ["ideation", "planning", "evaluation", "ranking", "decision", "simulation", "brainstorming"]
+}
