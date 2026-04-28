@@ -15,7 +15,7 @@ Creates a new workspace for one of the ideation-planning variants. This plugin's
 
 - **First positional**: workspace name (kebab-case). Required.
 - **Second positional** (optional): target parent path. Default: `~/repos/github/my-repos`.
-- **`--variant=<v>`** (required): one of `ideation-session`, `single-idea-eval`, `multi-idea-ranking`, `feature-ideas`, `decision-framework`, `simulation`, `idea-capture`.
+- **`--variant=<v>`** (required): one of `ideation-session`, `single-idea-eval`, `multi-idea-ranking`, `feature-ideas`, `simulation`, `idea-capture`.
 - **`--local-only`** — skip GitHub repo creation. Default: create public repo.
 - **`--private`** — create private GitHub repo. Default: public.
 
@@ -25,7 +25,6 @@ Creates a new workspace for one of the ideation-planning variants. This plugin's
 /ideation-planning:new-workspace my-brainstorm --variant=ideation-session
 /ideation-planning:new-workspace saas-pivot-analysis --variant=single-idea-eval
 /ideation-planning:new-workspace vendor-shortlist --variant=multi-idea-ranking
-/ideation-planning:new-workspace career-change --variant=decision-framework --local-only
 /ideation-planning:new-workspace ai-policy-debate --variant=simulation
 ```
 
@@ -37,7 +36,7 @@ Extract workspace name, target parent path, variant, and flags from `$ARGUMENTS`
 
 ### 2. Resolve the scaffold path
 
-The bundled scaffold lives at `${CLAUDE_SKILL_DIR}/../../template/<variant>/`. Confirm it exists. If the variant isn't one of the seven, list the valid variants and stop.
+The bundled scaffold lives at `${CLAUDE_SKILL_DIR}/../../template/<variant>/`. Confirm it exists. If the variant isn't one of the six, list the valid variants and stop.
 
 ### 3. Read ambient facts
 
@@ -68,7 +67,6 @@ Ask the user only for facts this plugin can't infer:
 - **single-idea-eval**: no prompt needed; user drops idea files into `input/ideas/to-process/` and runs `/ideation-planning:eval-single-idea`.
 - **multi-idea-ranking**: what's being ranked (GitHub repos, products, vendors). Write into `spec/spec.md`.
 - **feature-ideas**: the product/project name these ideas relate to.
-- **decision-framework**: no prompt needed; user drops decision files into `decisions/queue/`.
 - **simulation**: simulation type (`conference`, `negotiation`, or `debate-map`). Record in CLAUDE.md.
 - **idea-capture**: the theme or scope of what will be captured.
 

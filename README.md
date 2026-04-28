@@ -1,8 +1,10 @@
 # ideation-planning-plugin
 
-Claude Code plugin for ideation and planning workflows — capture, evaluate, rank, simulate, and plan ideas. Consolidates brainstorming and idea-evaluation primitives from across the marketplace into a single plugin with seven workspace variants.
+Claude Code plugin for ideation and planning workflows — capture, evaluate, rank, simulate, and plan ideas. Consolidates brainstorming and idea-evaluation primitives from across the marketplace into a single plugin with six workspace variants.
 
 Part of the [danielrosehill Claude Code marketplace](https://github.com/danielrosehill/Claude-Code-Plugins).
+
+> **Decision analysis moved out (v1.1.0).** The `decision-analyze` command and `decision-framework` workspace variant have been migrated to the standalone [`decision-evaluation-framework`](https://github.com/danielrosehill/Claude-Decision-Evaluation-Framework-Plugin) plugin, which expands the original seven frameworks to twenty, adds parallel multi-lens orchestration, Typst PDF rendering, and Google Drive export. This plugin's scope returns to ideation, evaluation, ranking, and simulation.
 
 ## What you get
 
@@ -32,9 +34,6 @@ Part of the [danielrosehill Claude Code marketplace](https://github.com/danielro
 - `feature-prioritize` — score and prioritize the feature-ideas queue
 - `feature-export-roadmap` — export an approved roadmap
 
-**Decisions** (`/ideation-planning:decision-*`):
-- `decision-analyze` — run seven parallel decision frameworks (CBA, SWOT, matrix, ICE, risk-reward, Eisenhower, regret minimization)
-
 **Simulations** (`/ideation-planning:sim-*`):
 - `sim-configure-speakers` / `sim-configure-parties` — define conference speakers or negotiation parties
 - `sim-run-conference` — simulate a multi-speaker conference / symposium
@@ -55,15 +54,16 @@ Part of the [danielrosehill Claude Code marketplace](https://github.com/danielro
 
 - `/ideation-planning:new-workspace <name> [--variant=<v>]`
 
-Scaffolds a new workspace for one of the seven variants:
+Scaffolds a new workspace for one of the six variants:
 
 - `ideation-session` — brainstorming + synthesis runs
 - `single-idea-eval` — deep ICEC/council evaluation of one idea at a time
 - `multi-idea-ranking` — shortlist/ranking across many candidates (GH repos, products, vendors)
 - `feature-ideas` — feature idea intake + prioritization
-- `decision-framework` — seven-framework decision analysis
 - `simulation` — conference, negotiation, or debate simulation
 - `idea-capture` — low-friction capture + consolidation workspace
+
+For decision analysis, install the [`decision-evaluation-framework`](https://github.com/danielrosehill/Claude-Decision-Evaluation-Framework-Plugin) plugin separately.
 
 Personalises `CLAUDE.md` from `~/.claude/CLAUDE.md` and (by default) creates a public GitHub repo.
 
