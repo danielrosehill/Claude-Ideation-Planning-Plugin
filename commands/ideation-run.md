@@ -21,6 +21,21 @@ Run an ideation session.
    - `balanced` → mix both
    - Include 2-3 unconventional or lateral ideas per run
 
+   For anything above a handful of ideas, fan out instead of generating in one
+   pass. Split the topic into 3–5 **lenses** — distinct angles, categories,
+   audiences, eras, or methodologies, plus one wildcard — and dispatch one
+   `idea-generator` agent per lens **in a single message** so they run
+   concurrently. Brief each with the full `config/topic.md` contents, its own
+   lens, the exclusion list from step 2, and its share of the quantity.
+
+   Generators return markdown and do not write files; you assemble their batches
+   in step 5. Before assembling, drop near-duplicates that separate lenses
+   arrived at independently, and keep the better-argued version of each.
+
+   Skip the fan-out when the run is small or the topic is too narrow to slice
+   sensibly — briefing five agents to produce two ideas each costs more than it
+   returns.
+
 5. **Write** `runs/YYYY-MM-DD-run-NNN.md` with:
 
    ```markdown

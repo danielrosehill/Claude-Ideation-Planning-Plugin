@@ -18,7 +18,7 @@ Part of the [danielrosehill Claude Code marketplace](https://github.com/danielro
 
 **Ideation runs** (`/ideation-planning:ideation-*`):
 - `ideation-configure` — set topic, constraints, depth, diversity mode
-- `ideation-run` — generate a diverse batch of ideas against the active topic
+- `ideation-run` — generate a diverse batch of ideas against the active topic, fanning out across parallel `idea-generator` agents on separate lenses when the batch is large enough to warrant it
 - `ideation-synthesize` — aggregate across runs, surface themes, pick top candidates
 
 **Evaluation & ranking** (`/ideation-planning:eval-*`, `/ideation-planning:rank-*`):
@@ -42,9 +42,10 @@ Part of the [danielrosehill Claude Code marketplace](https://github.com/danielro
 
 **Planning & deliverables** (`/ideation-planning:plan-*`, `/ideation-planning:deliverable-*`):
 - `plan-project` — convert a refined idea into a project plan
-- `deliverable-audience` — generate a stakeholder-targeted PDF deliverable from consolidated ideas
+- `deliverable-audience` — render a stakeholder-targeted PDF (pandoc → Typst) from whichever of `consolidated/`, `synthesis/`, `runs/`, `plan/plan.md`, or `docs/idea.md` the workspace has
 
 **Agents**:
+- `idea-generator` — lens-scoped idea generator, designed to be fanned out in parallel
 - `idea-evaluator` — autonomous single-idea ICEC evaluator
 - `council-evaluator` — six-persona council deliberation orchestrator
 - `ranking-evaluator` — batch ranking / shortlist orchestrator
@@ -52,7 +53,7 @@ Part of the [danielrosehill Claude Code marketplace](https://github.com/danielro
 
 ### Provisioning skill
 
-- `/ideation-planning:new-workspace <name> [--variant=<v>]`
+- `/ideation-planning:new-workspace <name> [--variant=<v>] [--private] [--local-only]`
 
 Scaffolds a new workspace for one of the six variants:
 
@@ -65,7 +66,7 @@ Scaffolds a new workspace for one of the six variants:
 
 For decision analysis, install the [`decision-evaluation-framework`](https://github.com/danielrosehill/Claude-Decision-Evaluation-Framework-Plugin) plugin separately.
 
-Personalises `CLAUDE.md` from `~/.claude/CLAUDE.md` and (by default) creates a public GitHub repo.
+Personalises `CLAUDE.md` from `~/.claude/CLAUDE.md` and creates a GitHub repo — public by default, private with `--private`, skipped entirely with `--local-only`.
 
 ## Install
 
@@ -81,6 +82,18 @@ Personalises `CLAUDE.md` from `~/.claude/CLAUDE.md` and (by default) creates a p
 /ideation-planning:ideation-run
 /ideation-planning:ideation-synthesize
 ```
+
+A full subject-scoped session, private, ending in something readable away from the terminal — here, non-fiction books that could be written about a given subject:
+
+```
+/ideation-planning:new-workspace books-on-<subject> --variant=ideation-session --private
+/ideation-planning:ideation-configure     # topic, purpose, constraints, depth, diversity
+/ideation-planning:ideation-run           # repeat; each run reads the last and avoids it
+/ideation-planning:ideation-synthesize    # themes, top picks, gaps
+/ideation-planning:deliverable-audience   # → deliverables/<slug>-<audience>-YYYY-MM-DD.pdf
+```
+
+`ideation-configure` is where the shape of the output is decided — the *purpose* field distinguishes covering a space from attacking a problem, and the *output format* field is what makes each idea come back with the fields you actually want (for books: working title, thesis, why now, who reads it).
 
 ```
 /ideation-planning:new-workspace evaluate-saas-idea --variant=single-idea-eval
