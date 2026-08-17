@@ -14,7 +14,7 @@ Creates a new workspace for one of the ideation-planning variants. This plugin's
 `$ARGUMENTS` is parsed as:
 
 - **First positional**: workspace name (kebab-case). Required.
-- **Second positional** (optional): target parent path. Default: `~/repos/github/my-repos`.
+- **Second positional** (optional): target parent path. Defaults to the topic group under `~/repos/github/` that most specifically fits the subject — see `~/repos/github/README.md` for the group list. (`~/repos/github/my-repos/` is no longer the default; it holds only blog repos now.)
 - **`--variant=<v>`** (required): one of `ideation-session`, `single-idea-eval`, `multi-idea-ranking`, `feature-ideas`, `simulation`, `idea-capture`.
 - **`--local-only`** — skip GitHub repo creation. Default: create public repo.
 - **`--private`** — create private GitHub repo. Default: public.
