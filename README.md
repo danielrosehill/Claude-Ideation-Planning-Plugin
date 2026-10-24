@@ -71,6 +71,8 @@ Personalises `CLAUDE.md` from `~/.claude/CLAUDE.md` and creates a GitHub repo �
 ### Voice note kickoff skill
 
 - `voice-note-kickoff` — start a project from a voice note in the project voice-notes Google Drive folder: download, polish the audio for public repos (`audio-production-private:polish-voice-note`), transcribe with AssemblyAI, and commit the audio, raw transcript, cleaned transcript, development plan, task list, `CLAUDE.md` and README into a new or existing repo. First run 2026-10-24 ([Proofed](https://github.com/danielrosehill/Proofed)).
+- `voice-note-brief-pdf` — one presentable project-brief PDF from a kicked-off repo: overview, development plan, then the lightly edited transcript, stamped with the recording date, generation time and Claude Code model. Renders with the `modular-research` plugin's Typst template (IBM Plex Sans).
+- `voice-note-kickoff-research` — wrapper: `voice-note-kickoff` → `voice-note-brief-pdf` → `modular-research:research-report` on the plan's first research phase → `pdfunite` into one combined brief-and-research PDF, committed and emailed. Needs the `modular-research` plugin and `pdfunite` (poppler).
 
 ## Install
 

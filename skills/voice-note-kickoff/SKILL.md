@@ -115,6 +115,12 @@ One commit (`Kick off from voice note YYYY-MM-DD: audio, transcripts, plan, task
 Verify the push: `git status -sb` shows no ahead count, and the README's relative links resolve
 (`ls` every linked path).
 
+## Next
+
+- A presentable PDF of the brief (overview, plan, edited transcript): `voice-note-brief-pdf`.
+- The brief PDF plus the first-phase research as one combined PDF:
+  `voice-note-kickoff-research` (it runs this skill as its step 1).
+
 ## Report
 
 Repo URL, the note processed, audio length (and seconds cut by the polish), the transcript id,
