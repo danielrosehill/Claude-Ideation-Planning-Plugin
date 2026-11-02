@@ -28,7 +28,7 @@ Input may be:
 ### For a voice recording
 
 1. Locate the audio file under `raw/`.
-2. Transcribe via the configured transcription tool (e.g. gemini-transcription MCP).
+2. Transcribe via the configured transcription tool (e.g. `transcription-pipeline:transcribe-audio` from the `transcription-pipeline` plugin).
 3. Save transcript as `raw/YYYY-MM-DD-transcript-<slug>.md`.
 4. Extract distinct ideas into `ideas/` files.
 5. Set `Source: voice (<filename>)`, `Status: raw`.
