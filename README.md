@@ -1,5 +1,7 @@
 # ideation-planning-plugin
 
+**Write-up:** [Claude Code plugins for non-coding work: homelab, data, media and admin](https://blog.danielrosehill.com/posts/claude-code-plugins-non-coding-workflows-xlkdop/)
+
 Claude Code plugin for ideation and planning workflows — capture, evaluate, rank, simulate, and plan ideas. Consolidates brainstorming and idea-evaluation primitives from across the marketplace into a single plugin with six workspace variants.
 
 Part of the [danielrosehill Claude Code marketplace](https://github.com/danielrosehill/Claude-Code-Plugins).
