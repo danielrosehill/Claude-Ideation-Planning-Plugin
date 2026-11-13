@@ -1,6 +1,6 @@
 ---
 name: voice-note-kickoff-research
-description: The full voice-note-to-project run - kick off the repo from a Drive voice note (voice-note-kickoff), render the project-brief PDF (voice-note-brief-pdf), run the plan's first-phase research as a timestamped executive report (modular-research:research-report), then join the brief and the research report into one combined PDF, commit it and email it. Use when Daniel says "kick it off and research it", "the full run on this voice note", "brief and research in one PDF", or asks for both the project brief and the research.
+description: The full voice-note-to-project run - kick off the repo from a Drive voice note (voice-note-kickoff), render the project-brief PDF (voice-note-brief-pdf), run the plan's first-phase research as a timestamped executive report (modular-research:research-report), then join the brief and the research report into one combined PDF, commit it and email it. Use when the user says "kick it off and research it", "the full run on this voice note", "brief and research in one PDF", or asks for both the project brief and the research.
 ---
 
 # Voice note → brief → research → one PDF
@@ -24,8 +24,8 @@ phase), don't redo it; say so and go on. Commit and push after each step, as eac
 
 The research question is the plan's first research phase: `docs/development-plan.md` phase 1
 and its open questions, and the matching tasks in `docs/tasks.md`. Make each research task a
-sub-question. Skip questions only Daniel can answer (decisions, preferences, budgets); list them
-in the report's *Open questions* as "needs Daniel". Folder:
+sub-question. Skip questions only the user can answer (decisions, preferences, budgets); list them
+in the report's *Open questions* as "needs the user". Folder:
 `research/YYYY-MM-DD-phase-1-<slug>/`. After the report, tick the research tasks in
 `docs/tasks.md` it answered and update the plan where findings change it, in the same commit.
 
@@ -47,11 +47,11 @@ research part shows its provenance block. Add to the README's `## Project brief`
 Follow `modular-research` `skills/run/references/delivery.md`: the one-line notice that the PDF
 is leaving the machine, then one email with the combined PDF attached. Subject
 `<Project>: brief and research`. Body: the brief's abstract, the research's bottom line,
-3–6 key findings, the questions that need Daniel, and GitHub links to the combined PDF and the
+3–6 key findings, the questions that need the user, and GitHub links to the combined PDF and the
 repo. Drive only when asked, to `<drive.folder>/<Repo>/`. Check the sent folder. Record the
 delivery in `research/<folder>/delivery.json`, commit, push.
 
 ## Report
 
 The repo URL, the combined PDF's GitHub link and page count, whether the email was confirmed
-sent, and the questions that need Daniel.
+sent, and the questions that need the user.

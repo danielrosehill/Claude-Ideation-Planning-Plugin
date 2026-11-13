@@ -1,11 +1,11 @@
 ---
 name: voice-note-brief-pdf
-description: Turn a project's kickoff voice note and its derived documents into one presentable project-brief PDF (Typst, IBM Plex Sans) - project overview, development plan, then the lightly edited transcript - stamped with the date, the recording date and attribution to Claude Code and its model. Saves the PDF next to the voice note, links it from the README, commits and pushes; emails it when asked. Use after voice-note-kickoff, or when Daniel says "make a PDF of the project brief", "give me the brief as a PDF", "one PDF with the idea, the plan and the transcript".
+description: Turn a project's kickoff voice note and its derived documents into one presentable project-brief PDF (Typst, IBM Plex Sans) - project overview, development plan, then the lightly edited transcript - stamped with the date, the recording date and attribution to Claude Code and its model. Saves the PDF next to the voice note, links it from the README, commits and pushes; emails it when asked. Use after voice-note-kickoff, or when the user says "make a PDF of the project brief", "give me the brief as a PDF", "one PDF with the idea, the plan and the transcript".
 ---
 
 # Voice note → project-brief PDF
 
-The companion to `voice-note-kickoff`: everything Daniel said defining the project, in one
+The companion to `voice-note-kickoff`: everything the user said defining the project, in one
 document. First written and run 2026-10-24 on `danielrosehill/Proofed`.
 
 Needs a repo already kicked off (`context/voice-notes/YYYY-MM-DD-<slug>/` with

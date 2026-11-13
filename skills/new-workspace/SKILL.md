@@ -98,4 +98,4 @@ Tell the user:
 
 - Resolve the scaffold from `${CLAUDE_SKILL_DIR}/../../template/` (not `${CLAUDE_PLUGIN_ROOT}` — that's only exported in hooks/MCP).
 - Never copy `.claude/commands/`, `.claude/agents/`, or `.claude/skills/` into the new workspace.
-- Don't hard-code Daniel-specific paths or identifiers — everything comes from user memory or prompts.
+- Don't hard-code user-specific paths or identifiers — everything comes from user memory or prompts.
