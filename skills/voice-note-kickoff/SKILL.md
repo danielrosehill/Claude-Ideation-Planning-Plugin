@@ -15,17 +15,20 @@ Scripts are next to this file (`scripts/`). Skills read from the catalogue have 
 `~/repos/github/ai-agents-and-prompts/ai-claude-plugins/Claude-Ideation-Planning-Plugin/skills/voice-note-kickoff/scripts/`.
 Work in the session scratchpad: `<scratch>/vnk/<slug>/`.
 
+## 0. Load your settings
+
+Read `voice-note-kickoff.md` from `$CLAUDE_USER_DATA/ideation-planning/`, else
+`~/.claude-user-data/ideation-planning/`, if it exists; its notes (voice-notes folder, drive
+account, rclone remote) win over the defaults below.
+
 ## Where the notes are
 
-- Folder id `1FBdCBdxL_td4vNth7URpIx7KBF-PPGXY`, on a shared drive (drive id
-  `0AGUnItPFjcUqUk9PVA`), account daniel@danielrosehill.co.il.
-  Link: https://drive.google.com/drive/folders/1FBdCBdxL_td4vNth7URpIx7KBF-PPGXY
-- List: `rclone lsl gdrivepersonal: --drive-root-folder-id 1FBdCBdxL_td4vNth7URpIx7KBF-PPGXY`
-  (or gateway `google-workspace-personal__list_drive_items`, `folder_id` above,
-  `order_by: "modifiedTime desc"`).
-- Download: `rclone copy "gdrivepersonal:<name>.mp3" <scratch>/vnk/<slug>/original/ --drive-root-folder-id 1FBdCBdxL_td4vNth7URpIx7KBF-PPGXY`.
-  Never rename, move or delete anything in the Drive folder. Nothing marks a note as processed
-  there; the processing record in the repo is the marker.
+The user keeps voice notes in a cloud-drive folder (folder id, drive id and account are in your
+settings; see step 0 below). List and download them with `rclone` (`rclone lsl <remote>:
+--drive-root-folder-id <folder-id>`, `rclone copy "<remote>:<name>.mp3" <scratch>/vnk/<slug>/original/
+--drive-root-folder-id <folder-id>`) or any Drive tool you have, newest first. If no folder is
+configured, ask for the file path or link. Never rename, move or delete anything in the folder.
+Nothing marks a note as processed there; the processing record in the repo is the marker.
 
 **Which note:** the one Daniel names. Else the one whose filename matches the repo name
 (`proofed.mp3` ↔ `Proofed`). Else list the newest five and ask.
@@ -53,7 +56,8 @@ file you commit, so any timestamps match what people hear.
 ## 3. Transcribe (AssemblyAI)
 
 ```bash
-with-secrets scripts/transcribe_assemblyai.sh <scratch>/vnk/<slug>/voice-note.mp3 <scratch>/vnk/<slug>/asr [boost terms...]
+# needs ASSEMBLYAI_API_KEY in the environment
+scripts/transcribe_assemblyai.sh <scratch>/vnk/<slug>/voice-note.mp3 <scratch>/vnk/<slug>/asr [boost terms...]
 ```
 
 Boost terms: project and model names you expect (from the filename, repo name, earlier notes).

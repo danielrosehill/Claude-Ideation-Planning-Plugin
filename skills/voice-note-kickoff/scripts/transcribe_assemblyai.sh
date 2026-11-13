@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Transcribe a voice note with AssemblyAI (universal model, English).
-# Usage: with-secrets transcribe_assemblyai.sh <audio> <outdir> [word_boost terms...]
+# Usage: transcribe_assemblyai.sh <audio> <outdir> [word_boost terms...]
 # Writes to <outdir>:
 #   transcript.json      full API response (word-level; scratch only, never committed)
 #   paragraphs.json      AssemblyAI paragraph split (scratch only)
@@ -8,12 +8,12 @@
 #                        This is the file that goes in the repo, unedited.
 #   transcript-timed.txt "[seconds] text" per paragraph, for citing timestamps while writing docs
 #   transcript-id.txt    AssemblyAI transcript id
-# Key: ASSEMBLYAI_API_KEY (or ASSEMBLY_API_KEY) via `with-secrets`. The audio is uploaded to AssemblyAI.
+# Key: ASSEMBLYAI_API_KEY (or ASSEMBLY_API_KEY) from the environment. The audio is uploaded to AssemblyAI.
 # Adapted from asr-dev voice-update/scripts/transcribe_assemblyai.sh (verified 2026-10-22), minus
 # its Hebrish boost list.
 set -euo pipefail
 AUDIO=$1; OUT=$2; shift 2
-K="${ASSEMBLYAI_API_KEY:-${ASSEMBLY_API_KEY:-}}"; [ -n "$K" ] || { echo "no AssemblyAI key: run under with-secrets" >&2; exit 1; }
+K="${ASSEMBLYAI_API_KEY:-${ASSEMBLY_API_KEY:-}}"; [ -n "$K" ] || { echo "set ASSEMBLYAI_API_KEY in the environment (from your own secrets manager or shell)" >&2; exit 1; }
 mkdir -p "$OUT"
 BOOST=$(printf '%s\n' "$@" | sed '/^$/d' | jq -R . | jq -s -c .)
 U=$(curl -sf -H "authorization: $K" --data-binary @"$AUDIO" https://api.assemblyai.com/v2/upload | jq -r .upload_url)
