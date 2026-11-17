@@ -1,6 +1,6 @@
 ---
 name: voice-note-kickoff
-description: Kick off a project from one of the user's voice notes in the "project voice notes" Google Drive folder - download it, polish the audio if the repo is public, transcribe it with AssemblyAI, and commit the audio, the raw transcript, a cleaned transcript and derived docs (development plan, task list, CLAUDE.md, README) into a new or existing repo. Use when the user says "kick this project off from the voice note", "grab the voice note from Drive and transcribe it", "I recorded a note about X, set up the repo", or "process the <name> voice note".
+description: Kick off a project from one of the user's voice notes in the "project voice notes" Google Drive folder - download it, clean the audio with Sidon on Modal if the repo is public, transcribe it with AssemblyAI, and commit the audio, the raw transcript, a cleaned transcript and derived docs (development plan, task list, CLAUDE.md, README) into a new or existing repo. Use when the user says "kick this project off from the voice note", "grab the voice note from Drive and transcribe it", "I recorded a note about X, set up the repo", or "process the <name> voice note".
 ---
 
 # Voice note → project kickoff
@@ -26,7 +26,10 @@ account, rclone remote) win over the defaults below.
 The user keeps voice notes in a cloud-drive folder (folder id, drive id and account are in your
 settings; see step 0 below). List and download them with `rclone` (`rclone lsl <remote>:
 --drive-root-folder-id <folder-id>`, `rclone copy "<remote>:<name>.mp3" <scratch>/vnk/<slug>/original/
---drive-root-folder-id <folder-id>`) or any Drive tool you have, newest first. If no folder is
+--drive-root-folder-id <folder-id>`) or any Drive tool you have, newest first. Settings may list
+several folders (and their subfolders): look in all of them. Given a Drive link or file id,
+download by id, since the note may sit in a subfolder where a name-based `rclone copy` fails with
+"directory not found": `rclone backend copyid <remote>: <file-id> <dir>/`. If no folder is
 configured, ask for the file path or link. Never rename, move or delete anything in the folder.
 Nothing marks a note as processed there; the processing record in the repo is the marker.
 
@@ -45,13 +48,40 @@ Audio goes in the repo by default. Leave it out only if the user says so (then w
 Drive link in its place). Public repo → commit the **polished** audio. Private repo → commit
 the original as is unless the user asks for the polish.
 
-## 2. Polish (public repos)
+**Brief mode.** If the user says to make the cleaned voice note the README (typical for an idea
+being parked, not started), the README *is* `transcript-clean.md`: a two-line intro and status, an
+audio link, the cleaned note, `## Corrections`, then `## Open tasks` taken from the note. Skip
+`transcript-clean.md`, `docs/development-plan.md` and `docs/tasks.md`. CLAUDE.md is still written.
+First run: 2026-11-17, repo `Roaming-Dictation-Mic-Hub`.
 
-Skill `audio-production-private:polish-voice-note`:
+## 2. Clean the audio (public repos)
+
+**Default for public repos: Sidon speech restoration on Modal, then loudness.** Sidon v0.1
+(`sarulab-speech/sidon-v0.1`) re-synthesises the voice at 48 kHz with no room or background left,
+which is a much bigger step up for phone recordings than EQ and compression. Use the Modal job from
+skill `remote-video-editing:clean-voice-sidon` (`scripts/sidon_enhance.py` in that plugin; read its
+preferences for the Modal command/profile and run notes). A voice note costs a few cents and takes
+about a minute warm. No 30 s test needed for voice notes; the user has approved Sidon for this.
+
+```bash
+ffmpeg -v error -y -i <original> -ac 1 -ar 48000 -c:a flac -sample_fmt s16 audio.flac
+$MODAL run <remote-video-editing>/scripts/sidon_enhance.py --src audio.flac --out audio_sidon.flac
+# two-pass loudnorm to -16 LUFS / -1.5 dBTP (measure, then apply measured_* with linear=true),
+# then: -ac 1 -c:a libmp3lame -b:a 96k -metadata title="<Project> - voice note YYYY-MM-DD" voice-note.mp3
+```
+
+Opus sources print harmless "non monotonically increasing dts" warnings while converting to FLAC.
+Check that the MP3's duration matches the original (Sidon doesn't cut pauses).
+
+A local voice-enhancement model may be added later as an alternative to Modal; not yet chosen.
+
+**Fallback (no Modal), or when the user wants pauses cut:** skill
+`audio-production-private:polish-voice-note`:
 `~/repos/github/ai-agents-and-prompts/ai-claude-plugins/Claude-Audio-Production-Private-Plugin/skills/polish-voice-note/scripts/polish_voice_note.sh <original> <scratch>/vnk/<slug>/voice-note.mp3 --title "<Project> - project brief"`.
 Mono, EQ, pauses over 1 s cut to 0.5 s, gentle compression, two-pass loudnorm, 96 kbps MP3.
 Keep the before/after duration and LUFS it prints for the processing record. Transcribe the
-file you commit, so any timestamps match what people hear.
+file you commit, so any timestamps match what people hear. (Sidon keeps the timing, so after
+Sidon you can transcribe the original and start ASR while Modal runs.)
 
 ## 3. Transcribe (AssemblyAI)
 
@@ -106,7 +136,7 @@ The date is the recording date (Drive created time), not today.
 ```json
 {
   "source": {"drive_file_id": "", "drive_name": "", "drive_folder_id": "1FBdCBdxL_td4vNth7URpIx7KBF-PPGXY", "created": "", "bytes": 0},
-  "audio": {"committed": "polished|original|none", "polish": {"chain": "audio-production-private:polish-voice-note", "duration_before_s": 0, "duration_after_s": 0, "lufs_before": 0, "lufs_after": 0}},
+  "audio": {"committed": "polished|original|none", "polish": {"chain": "sidon-modal+loudnorm | audio-production-private:polish-voice-note", "duration_before_s": 0, "duration_after_s": 0, "lufs_before": 0, "lufs_after": 0}},
   "asr": {"provider": "assemblyai", "model": "universal", "transcript_id": "", "audio_duration_s": 0, "word_boost": []},
   "derived": ["transcript-clean.md", "docs/development-plan.md", "docs/tasks.md", "CLAUDE.md", "README.md"],
   "processed": "YYYY-MM-DD"
